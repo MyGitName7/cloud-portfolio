@@ -13,9 +13,23 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Jom Smith</h1>
           <nav className="space-x-4">
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/projects">Projects</Link>
+            <Link href="/" className="hover:underline">
+              Home
+            </Link>
+            <Link href="/about" className="hover:underline">
+              About
+            </Link>
+            <Link href="/projects" className="hover:underline">
+              Projects
+            </Link>
+            <a
+              href="https://github.com/MyGitName7"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:underline"
+            >
+              GitHub
+            </a>
           </nav>
         </div>
       </header>
