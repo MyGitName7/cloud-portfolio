@@ -1,60 +1,47 @@
 import { ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 
-type LayoutProps = { children: ReactNode }
+type LayoutProps = {
+  children: ReactNode
+}
 
 export default function Layout({ children }: LayoutProps) {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [dark, setDark] = useState(false)
 
+  // Sync dark mode preference with <html> class
   useEffect(() => {
-    const stored = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const next = (stored as 'light' | 'dark' | null) ?? (prefersDark ? 'dark' : 'light')
-    setTheme(next)
-    document.documentElement.classList.toggle('dark', next === 'dark')
-  }, [])
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark'
-    setTheme(next)
-    document.documentElement.classList.toggle('dark', next === 'dark')
-    localStorage.setItem('theme', next)
-  }
+    if (dark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [dark])
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900 dark:bg-slate-900 dark:text-slate-100">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
       {/* Header */}
-      <header className="header-dark">
-        <div className="container flex justify-between items-center p-4">
+      <header className="bg-gray-900 dark:bg-gray-800 text-white p-4">
+        <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Jom Smith</h1>
-          <nav className="flex items-center gap-4">
-            <Link href="/" className="hover:underline">Home</Link>
-            <Link href="/about" className="hover:underline">About</Link>
-            <Link href="/projects" className="hover:underline">Projects</Link>
-            <a
-              href="https://github.com/MyGitName7"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
-            >
-              GitHub
-            </a>
+          <nav className="space-x-4 flex items-center">
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/projects">Projects</Link>
             <button
-              onClick={toggleTheme}
-              aria-pressed={theme === 'dark'}
-              className="ml-2 rounded-md border border-white/20 px-3 py-1 text-sm hover:bg-white/10"
+              onClick={() => setDark(!dark)}
+              className="ml-4 px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm"
             >
-              {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+              {dark ? '☀️ Light' : '🌙 Dark'}
             </button>
           </nav>
         </div>
       </header>
 
-      {/* Main */}
-      <main className="flex-1 container p-6">{children}</main>
+      {/* Main content */}
+      <main className="flex-1 container mx-auto p-6">{children}</main>
 
       {/* Footer */}
-      <footer className="footer-dark text-center p-4 text-sm">
+      <footer className="bg-gray-100 dark:bg-gray-800 text-center p-4 text-sm text-gray-600 dark:text-gray-400">
         © {new Date().getFullYear()} Jom Smith — Cloud & Security Portfolio
       </footer>
     </div>
