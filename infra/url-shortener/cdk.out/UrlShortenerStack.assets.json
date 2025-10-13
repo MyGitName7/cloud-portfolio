@@ -1,0 +1,36 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "e3c1d83b220a2480ba3dab2f359b5795ce933078bfed53343e2e305eb02529aa": {
+      "displayName": "ShortenerFn/Code",
+      "source": {
+        "path": "asset.e3c1d83b220a2480ba3dab2f359b5795ce933078bfed53343e2e305eb02529aa",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "-us-east-1-3cb06439": {
+          "bucketName": "cdk-hnb659fds-assets--us-east-1",
+          "objectKey": "e3c1d83b220a2480ba3dab2f359b5795ce933078bfed53343e2e305eb02529aa.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam:::role/cdk-hnb659fds-file-publishing-role--us-east-1"
+        }
+      }
+    },
+    "5123a5cbf8497b8e32326cde913c353a679a4fecf524e029dbeaa222926bf125": {
+      "displayName": "UrlShortenerStack Template",
+      "source": {
+        "path": "UrlShortenerStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "-us-east-1-20c05b0f": {
+          "bucketName": "cdk-hnb659fds-assets--us-east-1",
+          "objectKey": "5123a5cbf8497b8e32326cde913c353a679a4fecf524e029dbeaa222926bf125.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam:::role/cdk-hnb659fds-file-publishing-role--us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
