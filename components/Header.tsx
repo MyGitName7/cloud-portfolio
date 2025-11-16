@@ -1,6 +1,7 @@
 // components/Header.tsx
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import NavLink from "./NavLink";
 
 function IconGitHub(props: React.SVGProps<SVGSVGElement>) {
@@ -17,20 +18,34 @@ function IconLinkedIn(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+function IconSun(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true" {...props}>
+      <path fill="currentColor" d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM3 11a1 1 0 1 1 0 2H2a1 1 0 1 1 0-2h1Zm19 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2h1ZM5.64 5.64a1 1 0 0 1 1.41 0l.71.71a1 1 0 1 1-1.41 1.41l-.71-.71a1 1 0 0 1 0-1.41Zm11.31 11.31a1 1 0 0 1 1.41 0l.71.71a1 1 0 0 1-1.41 1.41l-.71-.71a1 1 0 0 1 0-1.41Zm0-9.19a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 1 1-1.41 1.41l-.71-.71Zm-11.31 11.3a1 1 0 0 1 1.41-1.41l.71.71A1 1 0 0 1 6.34 20l-.71-.71a1 1 0 0 1 0-1.41Z"/>
+    </svg>
+  );
+}
+function IconMoon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true" {...props}>
+      <path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79Z"/>
+    </svg>
+  );
+}
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const toggleTheme = () => mounted && setTheme(resolvedTheme === "dark" ? "light" : "dark");
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
         {/* Brand */}
         <Link href="/" className="group flex items-center gap-2">
           <img src="/logo.svg" alt="logo" className="h-7 w-7" />
-          <span className="text-base font-semibold tracking-tight">
-            Jom Smith
-          </span>
-          {/* subtle brand underline on hover */}
+          <span className="text-base font-semibold tracking-tight">Jom Smith</span>
           <span className="pointer-events-none ml-1 hidden h-1 w-10 rounded bg-brand/20 transition group-hover:w-16 group-hover:bg-brand/40 md:inline-block" />
         </Link>
 
@@ -40,12 +55,22 @@ export default function Header() {
           <NavLink href="/projects">Projects</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/tools">Tools</NavLink>
-          <div className="ml-3 flex items-center gap-2">
+
+          {/* Theme toggle + icons */}
+          <div className="ml-2 flex items-center gap-1">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+              title="Toggle theme"
+            >
+              {mounted && resolvedTheme === "dark" ? <IconSun /> : <IconMoon />}
+            </button>
             <a
               href="https://github.com/MyGitName7"
               target="_blank"
               rel="noreferrer"
-              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
               aria-label="GitHub"
               title="GitHub"
             >
@@ -55,7 +80,7 @@ export default function Header() {
               href="https://www.linkedin.com/"
               target="_blank"
               rel="noreferrer"
-              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
               aria-label="LinkedIn"
               title="LinkedIn"
             >
@@ -67,8 +92,8 @@ export default function Header() {
         {/* Mobile menu button */}
         <button
           aria-label="Toggle menu"
-          className="rounded-lg p-2 hover:bg-slate-100 md:hidden"
-          onClick={() => setOpen((v) => !v)}
+          className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden"
+          onClick={() => (document.getElementById("mobile-nav")!.classList.toggle("hidden"))}
         >
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor">
             <path strokeWidth="2" strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
@@ -77,39 +102,44 @@ export default function Header() {
       </div>
 
       {/* Mobile nav */}
-      {open && (
-        <nav className="border-t border-slate-200 px-4 py-3 md:hidden">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/projects">Projects</NavLink>
-            <NavLink href="/about">About</NavLink>
-            <NavLink href="/tools">Tools</NavLink>
-
-            <div className="mt-2 flex items-center gap-2">
-              <a
-                href="https://github.com/MyGitName7"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                aria-label="GitHub"
-                title="GitHub"
-              >
-                <IconGitHub />
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                aria-label="LinkedIn"
-                title="LinkedIn"
-              >
-                <IconLinkedIn />
-              </a>
-            </div>
+      <nav id="mobile-nav" className="hidden border-t border-slate-200 px-4 py-3 dark:border-slate-800 md:hidden">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2">
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/projects">Projects</NavLink>
+          <NavLink href="/about">About</NavLink>
+          <NavLink href="/tools">Tools</NavLink>
+          <div className="mt-2 flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              title="Toggle theme"
+            >
+              {mounted && resolvedTheme === "dark" ? <IconSun /> : <IconMoon />}
+            </button>
+            <a
+              href="https://github.com/MyGitName7"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <IconGitHub />
+            </a>
+            <a
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+            >
+              <IconLinkedIn />
+            </a>
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
     </header>
   );
 }

@@ -36,20 +36,20 @@ export default function Tools() {
   return (
     <>
       <Head>
-        <title>Tools — Jom Smith</title>
+        <title>Tools — Cloud Portfolio</title>
         <meta name="description" content="Stack and services used to build practical AWS projects." />
       </Head>
 
       <main className="min-h-screen py-16">
         <div className="mx-auto max-w-5xl">
           <h1 className="text-3xl font-extrabold">Tools & Stack</h1>
-          <p className="mt-2 text-slate-600">
-            The core services and frameworks I use to build serverless-first apps on AWS.
+          <p className="mt-2 text-slate-600 dark:text-slate-400">
+            The core services and frameworks used to build serverless-first apps on AWS.
           </p>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {groups.map((g) => (
-              <section key={g.title} className="rounded-2xl border border-slate-200 p-5 shadow-sm">
+              <section key={g.title} className="rounded-2xl border border-slate-200 p-5 shadow-card dark:border-slate-800">
                 <h2 className="text-lg font-semibold">{g.title}</h2>
                 <ul className="mt-4 space-y-2 text-sm">
                   {g.items.map(([name, note]) => (
@@ -57,7 +57,7 @@ export default function Tools() {
                       <span className="mt-1 inline-block h-2 w-2 rounded-full bg-slate-400" />
                       <div>
                         <div className="font-medium">{name}</div>
-                        <div className="text-slate-600">{note}</div>
+                        <div className="text-slate-600 dark:text-slate-400">{note}</div>
                       </div>
                     </li>
                   ))}
